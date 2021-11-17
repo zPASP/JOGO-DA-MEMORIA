@@ -6,7 +6,7 @@ let score = 0;
 // 1 = vermelho
 // 2 = amarelo
 // 3 = azul
-
+const pontos = document.querySelector('.pontos')
 const blue = document.querySelector('.blue');
 const red = document.querySelector('.red');
 const yellow = document.querySelector('.yellow');
@@ -22,6 +22,7 @@ let shuffleOrder = () => {
         let elementColor = createColorElement(order[i]);
         lightColor(elementColor, Number(i) + 1);
         console.log (order[i]);
+        console.log(Number(i) + 1)
     }
 }
 
@@ -33,7 +34,7 @@ let lightColor = (element, number) => {
     }, number - 250);
     setTimeout(() => {
         element.classList.remove('selected');
-    });
+    }, 500);
 }
 
 //checa se os botões clicados são os mesmos da ordem gerada no jogo
@@ -54,10 +55,11 @@ let checkOrder = () => {
 let click = (color) => {
     clickedOrder[clickedOrder.length] = color;
     createColorElement(color).classList.add('selected');
+    
 
     setTimeout(() => {
         createColorElement(color).classList.remove('selected');
-        checkOrder();
+        checkOrder();   
     }, 250);
 }
 
@@ -91,14 +93,34 @@ let gameOver = () => {
 
 //função de inicio do jogo
 let playGame = () => {
-    alert('Bem vindo ao Gênesis! Iniciando novo jogo!')
+    //alert('Bem vindo ao Gênesis! Iniciando novo jogo!')
     score = 0;
 
     nextLevel();
 }
 
+let apertei = (color) => 
+    {   
+        createColorElement(color).classList.add('selected');
+        console.log('Apertei')
+    };
+let soltei = (color) => 
+    {
+        console.log('soltei')
+        green.classList.remove('selected');
+        setTimeout(() => {
+            clickedOrder[clickedOrder.length] = color;
+            checkOrder();
+        }, 250);
+         
+        
+    };
+
 //eventos de clique para as cores
-green.onclick = () => click(0);
+green.onmouseup = () => soltei(0);
+green.onmousedown = () => apertei(0);
+
+//green.onclick = () => click(0);
 red.onclick = () => click(1);
 yellow.onclick = () => click(2);
 blue.onclick = () => click(3);
